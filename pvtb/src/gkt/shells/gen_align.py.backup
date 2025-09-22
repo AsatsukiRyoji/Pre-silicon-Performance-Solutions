@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import sys, os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../test')
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../src')
+from gkt_util import *
+from align import *
+# Write ptn into 1
+# align_test_ptn = 'perf_(global|buffer)_load_dwordx(\d+)_comp(\d+)_hit(\w+)_ipw(\d+)_wpg(\d+)_align(\d+)_soffset(\d+)'
+# inst_arg_str, all_args= AlignClass.get_args_from_name(align_test_ptn, INST_ARGS_TYPE, INST_ARGS_DWPI, INST_ARGS_COMP, INST_ARGS_HIT, INST_ARGS_IPW, INST_ARGS_WPG, INST_ARGS_ALIGN, INST_ARGS_SOFFSET)
+# Divide ptns
+align_test_ptn = ['perf_(buffer)_load_dwordx(\d+)_comp(\d+)_hit(\w+)_ipw(\d+)_wpg(\d+)_align(\d+)_soffset(\d+)',
+'perf_(global)_load_dwordx(\d+)_hit(\w+)_ipw(\d+)_wpg(\d+)_align(\d+)']
+for ptn in align_test_ptn:
+if 'perf_(global)_load_dwordx(\d+)_hit' in ptn:
+inst_arg_str, all_args= AlignClass.get_args_from_name(ptn, INST_ARGS_TYPE, INST_ARGS_DWPI, INST_ARGS_HIT, INST_ARGS_IPW, INST_ARGS_WPG, INST_ARGS_ALIGN)
+else:
+inst_arg_str, all_args= AlignClass.get_args_from_name(ptn, INST_ARGS_TYPE, INST_ARGS_DWPI, INST_ARGS_COMP, INST_ARGS_HIT, INST_ARGS_IPW, INST_ARGS_WPG, INST_ARGS_ALIGN, INST_ARGS_SOFFSET)
+
+if not inst_arg_str and not all_args:
+if ptn == align_test_ptn[-1:]:
+	print(f"no args matched from name")
+continue
+else:
+	print(inst_arg_str)
+altest = AlignClass(inst_arg_str)
+altest.gen_output()
+break
+
+

@@ -1,0 +1,25 @@
+// This is a fake VCS compile file list
+// Generated for testing purposes
+
+// Common compilation options
+v2k
+define+SIM_MODE
+incdir+/data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/rtl/includes
+
+// Source files
+/data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/rtl/design/top_module.sv
+/data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/rtl/design/sub_module_a.sv
+/data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/rtl/design/sub_module_b.sv
+
+// Testbench files
+/data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/tb/testbench_top.sv
+/data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/tb/sequences/my_sequence.sv
+
+// Libraries
+-y /data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/lib/standard_cells
+-y /data3/dcu_arch_pv/jiangxiaofei/ngtb_tree/lib/mem_models
+
+// Additional options
+lint=all
+-sverilog
+-timescale=1ns/1ps

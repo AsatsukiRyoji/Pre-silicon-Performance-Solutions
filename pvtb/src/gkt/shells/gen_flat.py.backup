@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import sys, os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../test')
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../src')
+from gkt_util import *
+from flat import *
+# Write ptn into 1
+flat_test_ptn = 'perf_flat_load_vmem_and_lds_dwordx(\d+)_(\w+)_thread_hit(\w+)_ipw(\d+)_wpg(\d+)_inst(\d+)'
+inst_arg_str, all_args= FlatClass.get_args_from_name(flat_test_ptn, INST_ARGS_DWPI, INST_ARGS_MODE, INST_ARGS_HIT, INST_ARGS_IPW, INST_ARGS_WPG, INST_ARGS_SOFFSET)
+if not inst_arg_str and not all_args:
+	print(f"no args matched from name")
+else:
+	print(inst_arg_str)
+flattest = FlatClass(inst_arg_str)
+flattest.gen_output()
+
+

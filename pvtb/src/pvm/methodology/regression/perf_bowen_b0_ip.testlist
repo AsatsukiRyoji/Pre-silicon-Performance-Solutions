@@ -1,0 +1,146 @@
+############################################################
+##
+##[REGRESSION TYPE]
+##<(subgroup_name@)group_name> = <(regular expression)name>
+############################################################
+
+#[REGULAR]
+#XXX: 'group name' = 'reg-ex of test'. group name should be the same as the testgroup.371
+[CACHE1]
+perf_buffer_ooo = perf_buffer_loadstore(valu)?_instruction_mtype_(cc|nc)_ls_ooo_(OFF)
+perf_global_ooo = perf_global_loadstore(valu)?_instruction_mtype_(cc|nc)_ls_ooo_(OFF)
+
+# NMZ MLS cannot load to vgpr
+#perf_matrix_copy-sub0 = perf_matrix_load_b8_swOFF_r(COL|ROW)_t(COL|ROW)_ipw(8|12|16) 
+#perf_matrix_copy-sub1 = perf_matrix_load_b16_sw(ON|OFF)_r(COL|ROW)_t(COL|ROW)_ipw(8|12|16)
+#
+#perf_buffer_load_hash = perf_buffer_load_dwordx4_128B_hitTCC_ipw(12|15|23)_wpg(2|4)_(linear|full)hash_isize(0|1|2)
+perf_buffer_load_align = perf_buffer_load_dwordx(1|2|4)_comp(1)_hit(TCC)_ipw(64)_wpg(16)_align(128|64|24|72)_soffset(0|1)
+perf_global_load_align = perf_global_load_dwordx(1|2|4)_hit(TCC)_ipw(64)_wpg(4)_align(128|64|24|72)
+# MLSB
+perf_matrix_copy_to_lds = perf_matrix_copy_b(8|16)_sw(ON|OFF)_r(COL|ROW)_t(COL|ROW)_ipw(8|12|16)_lds 
+# MLSA
+perf_matrix_load_to_lds-sub0 = perf_matrix_load_(64x16|128x16|64x32)_b8_hitTCC_sw(ON|OFF)_r(COL)_t(ROW)_mfmt(0|2|4)_ipw(8|16)_lds
+perf_matrix_load_to_lds-sub1 = perf_matrix_load_(64x16|128x16|64x32)_b8_hitTCC_sw(ON|OFF)_r(ROW)_t(COL)_mfmt(0|2|4)_ipw(8|16)_lds
+perf_matrix_load_to_lds-sub2 = perf_matrix_load_(32x16|64x16|32x32)_b16_hitTCC_sw(ON|OFF)_r(COL)_t(ROW)_mfmt(0|2)_ipw(8|16)_lds
+perf_matrix_load_to_lds-sub3 = perf_matrix_load_(32x16|64x16|32x32)_b16_hitTCC_sw(ON|OFF)_r(ROW)_t(COL)_mfmt(0|2)_ipw(8|16)_lds
+
+perf_buffer_load-sub0 = perf_buffer_load_dwordx(1|2|4)_comp(1|2)_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_so(0|1)_tid0
+perf_buffer_load-sub1 = perf_buffer_load_dwordx(1|2|4)_comp0_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_so(0|1)_tid1
+perf_buffer_load_to_lds-sub0 = perf_buffer_load_dwordx(1|2|4)_toLDS_comp(1|2)_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_so(0|1)_tid0
+perf_buffer_load_to_lds-sub1 = perf_buffer_load_dwordx(1|2|4)_toLDS_comp(0)_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_so(0|1)_tid1
+
+perf_buffer_load_to_lds_wrap = perf_buffer_load_dwordx(1|2|4)_toLDS_comp1_hitTCP_ipw64_wpg4_wrap(0|1|2|3|4|5|6|7)
+perf_buffer_store-sub0 = perf_buffer_store_dwordx1_comp(1|2)_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_so(0|1)_tid0
+perf_buffer_store-sub1 = perf_buffer_store_dwordx1_comp0_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_so(0|1)_tid1
+perf_buffer_store-sub2 = perf_buffer_store_dwordx2_comp(1|2)_hit(TCC)_ipw(31|47|63)_wpg(2|4|8)_so(0|1)_tid0
+perf_buffer_store-sub3 = perf_buffer_store_dwordx2_comp0_hit(TCC)_ipw(31|47|63)_wpg(2|4|8)_so(0|1)_tid1
+perf_buffer_store-sub4 = perf_buffer_store_dwordx4_comp(1|2)_hit(TCC)_ipw(31|47|63)_wpg(4|8|16)_so(0|1)_tid0
+perf_buffer_store-sub5 = perf_buffer_store_dwordx4_comp0_hit(TCC)_ipw(31|47|63)_wpg(4|8|16)_so(0|1)_tid1
+
+[CACHE2]
+perf_global_load             = perf_global_load_dwordx(1|2|4)_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_inst(0|128)
+perf_global_load_to_lds      = perf_global_load_dwordx(1|2|4)_toLDS_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_inst(0|128)
+perf_global_load_to_lds_wrap = perf_global_load_dwordx(1|2|4)_toLDS_hitTCP_ipw64_wpg4_wrap(0|1|2|3|4|5|6|7)_inst(0|128)
+perf_global_store-sub0       = perf_global_store_dwordx(1|2|4)_hit(TCC)_ipw(32|47|63)_wpg(2|4)_inst(0|128)
+perf_global_store-sub1       = perf_global_store_dwordx(1|2)_hit(TCC)_ipw(32|47|63)_wpg(8)_inst(0|128)
+perf_global_store-sub3       = perf_global_store_dwordx(1|2|4)_hit(TCC)_ipw(23)_wpg(4)_inst(0|128)
+
+perf_flat_load             = perf_flat_load_dwordx(1|2|4)_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_inst(0|128)
+perf_flat_load_to_lds      = perf_flat_load_dwordx(1|2|4)_toLDS_hit(TCC)_ipw(32|48|64)_wpg(4|8|16)_inst(0|128)
+perf_flat_store-sub0       = perf_flat_store_dwordx(1|2|4)_hit(TCC)_ipw(32|47|63)_wpg(2|4)_inst(0|128)
+perf_flat_store-sub1       = perf_flat_store_dwordx(1|2)_hit(TCC)_ipw(32|47|63)_wpg(8)_inst(0|128)
+perf_flat_store-sub3       = perf_flat_store_dwordx(1|2|4)_hit(TCC)_ipw(23)_wpg(4)_inst(0|128)
+
+perf_buffer_atomic-sub0 = perf_buffer_atomic_(f32|f32x4|f64|f64x2)_ipw48_wpg4
+perf_buffer_atomic-sub1 = perf_buffer_atomic_f64_ipw96_wpg4
+perf_buffer_atomic-sub2 = perf_buffer_atomic_f32_ipw192_wpg4
+perf_global_atomic-sub0 = perf_global_atomic_(f32|f32x4|f64|f64x2)_ipw48_wpg4
+perf_global_atomic-sub1 = perf_global_atomic_f64_ipw96_wpg4
+perf_global_atomic-sub2 = perf_global_atomic_f32_ipw192_wpg4
+
+perf_structure_buffer-sub0 = perf_structure_buffer_load_dwordx(2|4)_hitTCP_S(0.25|0.5|1|2|4|8|16|32)K_N0_B64_CSW(off)
+perf_structure_buffer-sub1 = perf_structure_buffer_load_dwordx(2|4)_hitTCP_S0K_N(3|48|96|192|511)_B64_CSW(off)
+perf_structure_buffer-sub2 = perf_structure_buffer_load_dwordx4_hitTCC_S(2|4|8)K_N0_B(64|128)_CSWon
+
+[CACHE3]
+perf_buffer_load_stride-sub0 = perf_buffer_load_dwordx1_comp1_hitTCC_ipw(32|64)_wpg4_so0_tci8_tid0_bankhash1_stride(128B|256B|512B|1K|2K|3K|4K|8K|64K|8192K)_isize(0|1|2|3)
+perf_buffer_load_stride-sub1 = perf_buffer_load_dwordx2_comp1_hitTCC_ipw(16|32)_wpg4_so0_tci8_tid0_bankhash1_stride(128B|256B|512B|1K|2K|3K|4K|8K|64K|8192K)_isize(0|1|2|3)
+perf_buffer_load_stride-sub2 = perf_buffer_load_dwordx4_comp1_hitTCC_ipw(8|16)_wpg4_so0_tci8_tid0_bankhash1_stride(128B)_isize(0|1|2|3)
+perf_buffer_load_stride-sub3 = perf_buffer_load_dwordx4_comp1_hitTCC_ipw(8|16)_wpg4_so0_tci16_tid0_bankhash1_stride(256B|512B|1K|2K|3K|4K|8K|64K)_isize(0|1|2|3)
+perf_buffer_load_stride-sub4 = perf_buffer_load_dwordx4_comp1_hitTCC_ipw(8|16)_wpg4_so0_tci32_tid0_bankhash1_stride8192K_isize(0|1|2|3)
+
+perf_global_load_stride-sub0 = perf_global_load_dwordx1_hitTCC_ipw(32|64)_wpg4_tci8_inst0_bankhash1_stride(128|256|512|1024|2048|3072|4096|8192|65536|8388608)_isize(0|1|2|3)
+perf_global_load_stride-sub1 = perf_global_load_dwordx2_hitTCC_ipw(16|32)_wpg4_tci8_inst0_bankhash1_stride(128|256|512|1024|2048|3072|4096|8192|65536|8388608)_isize(0|1|2|3)
+perf_global_load_stride-sub2 = perf_global_load_dwordx4_hitTCC_ipw(8|16)_wpg4_tci8_inst0_bankhash1_stride128_isize(0|1|2|3)
+perf_global_load_stride-sub3 = perf_global_load_dwordx4_hitTCC_ipw(8|16)_wpg4_tci16_inst0_bankhash1_stride(256|512|1024|2048|3072|4096|8192|65536)_isize(0|1|2|3)
+perf_global_load_stride-sub4 = perf_global_load_dwordx4_hitTCC_ipw(8|16)_wpg4_tci32_inst0_bankhash1_stride8388608_isize(0|1|2|3)
+
+
+perf_flat_load_stride-sub0 = perf_flat_load_dwordx1_hitTCC_ipw(32|64)_wpg4_tci8_inst0_bankhash1_stride(128|256|512|1024|2048|3072|4096|8192)_isize(0|1|2|3)
+perf_flat_load_stride-sub1 = perf_flat_load_dwordx2_hitTCC_ipw(16|32)_wpg4_tci8_inst0_bankhash1_stride(128|256|512|1024|2048|3072|4096|8192|65536|8388608)_isize(0|1|2|3)
+perf_flat_load_stride-sub2 = perf_flat_load_dwordx4_hitTCC_ipw(8|16)_wpg4_tci8_inst0_bankhash1_stride128_isize(0|1|2|3)
+perf_flat_load_stride-sub3 = perf_flat_load_dwordx4_hitTCC_ipw(8|16)_wpg4_tci16_inst0_bankhash1_stride(256|512|1024|2048|3072|4096|8192|65536)_isize(0|1|2|3)
+perf_flat_load_stride-sub4 = perf_flat_load_dwordx4_hitTCC_ipw(8|16)_wpg4_tci32_inst0_bankhash1_stride8388608_isize(0|1|2|3)
+
+
+[COMMAND]
+perf_cp_dc_dimx_dimy_dispatch = perf_cp_dc_dimx_dimy_dispatch_dpq1_dimx(8|32|128|256)_dimy(8|32|128|256)_tpgx(1|2|4|8|16|32|64)_wpg1_mode(0|1)
+
+perf_cp_dispatch-sub0 = perf_cp_dispatch_(two|three|all)pip_singleque_dpq1_gpd(1024|2048|4096|8192|65536)_wpg(2|4|8)
+perf_cp_dispatch-sub1 = perf_cp_dispatch_allpip_(two|four|all)que_dpq1_gpd(6144)_wpg2
+perf_cp_dispatch-sub2 = perf_cp_dispatch_threepip_(two|four|all)que_dpq1_gpd10240_wpg2
+perf_cp_dispatch-sub3 = perf_cp_dispatch_twopip_(two|four|all)que_dpq1_gpd15360_wpg2
+perf_cp_dc_dispatch = perf_cp_dc_dispatch_pipid(0|1|2|3)_queid(0|1|2|3|4|5|6|7)_dpq1_gpd(256|1024|2048|8192|65536)_wpg(1|2)
+
+perf_spi_launch_initgpr = perf_spi_launch_initgpr_sgpr(0|4|8|16|20)_vgpr(1|2|3)_unorder(ON|OFF)_ipw1_wpg(4|16)
+
+perf_spi_launch_crawler-sub0 = perf_spi_launch_crawler_ipw192_tg288_wpg8_pip1
+perf_spi_launch_crawler-sub1 = perf_spi_launch_crawler_ipw256_tg(288|360)_wpg4_pip2
+perf_spi_launch_pipe-sub0 = perf_spi_launch_pipe_ipw1_tg288_wpg16_pip2_pri(0|1|2|6)
+perf_spi_launch_pipe-sub1 = perf_spi_launch_pipe_ipw1_tg288_wpg16_pip3_pri(0|1|2|3|4|5|6)
+perf_spi_launch_pipe-sub2 = perf_spi_launch_pipe_ipw1_tg288_wpg16_pip4_pri(0|1|2|3|4|5|6)
+perf_spi_launch_culock-sub1 = perf_spi_launch_culock_ipw32_tg576_wpg2_pip(2|4)
+perf_spi_launch_culock-sub2 = perf_spi_launch_culock_ipw64_tg576_wpg4_pip2
+
+[SHADER]
+perf_sp_valu_gemm-sub0 = perf_sp_v_mmac_16x16x4_f64_vstep(0|1)_lts(0|1)_data_forward_(true|false)_(ipw128_wpg16|ipw256_wpg8|ipw512_wpg4)
+perf_sp_valu_gemm-sub1 = perf_sp_v_mmac_16x16x4_f32_vstep(0|1|2)_lts(0|1)_data_forward_(true|false)_(ipw128_wpg16|ipw256_wpg8|ipw512_wpg4)
+perf_sp_valu_gemm-sub2 = perf_sp_(v_mmac_i32_16x16x32_i8|v_mmac_i32_16x16x32_u8|v_mmac_i32_16x16x64_i4|v_mmac_i32_16x16x64_u4)_clamp(0|1)_lit(0|1)_lts(0|1)_data_forward_(true|false)_(ipw128_wpg16|ipw256_wpg8|ipw512_wpg4)
+perf_sp_valu_gemm-sub3 = perf_sp_(v_mmac_16x16x8_f32|v_mmac_f32_16x16x8_tf32|v_mmac_f32_16x16x16_f16|v_mmac_f32_16x16x16_bf16|v_mmac_f32_16x16x32_fp8_fp8|v_mmac_f32_16x16x32_bf8_bf8|v_mmac_f32_16x16x32_fp8_bf8|v_mmac_f32_16x16x32_bf8_fp8)_lit(0|1)_lts(0|1)_data_forward_(true|false)_(ipw128_wpg16|ipw256_wpg8|ipw512_wpg4)
+perf_sp_precision_conversion_alu = perf_sp_(v_cvt_f32_bf16|v_cvt_bf16_f32|v_cvt_f32_bf8|v_cvt_f32_fp8|v_cvt_sr_bf8_f32|v_cvt_sr_fp8_f32|v_cvt_pk_bf8_f32|v_cvt_pk_fp8_f32|v_cvt_pk_f32_bf8|v_cvt_pk_f32_fp8|v_cvt_rtne_tf32_f32|v_cvt_rtz_tf32_f32|v_cvt_rna_tf32_f32)_edc(0|1)_(ipw128_wpg16|ipw256_wpg8|ipw512_wpg4)
+perf_sp_trans_alu = perf_sp_(v_rcp_f16|v_rcp_f32|v_rcp_f64|v_rcp_iflag_f32|v_sqrt_f16|v_sqrt_f32|v_sqrt_f64|v_rsq_f16|v_rsq_f32|v_rsq_f64|v_exp_f16|v_exp_f32|v_log_f16|v_log_f32|v_sin_f16|v_sin_f32|v_cos_f16|v_cos_f32)_edc(0|1)_(ipw128_wpg16|ipw256_wpg8|ipw512_wpg4)
+perf_sp_valu_edc = perf_sp_valu_(fma_f16|add_i16|cvt_pk_bf8_f32|cvt_pk_fp8_f32|cvt_sr_bf8_f32|cvt_sr_fp8_f32|cvt_f32_bf16|cvt_bf16_f32|cvt_f32_bf8|cvt_f32_fp8)_ipw512_wpg4_edc(ON|OFF)
+perf_sp_valu_regular = perf_sp_valu_(pk_fma_f16|fma_f32|fma_f64|add_i32|add_u32|add_u16|pk_add_i16|pk_add_u16|rcp_f16|rcp_f32|rcp_f64|mov_b64|pk_fma_f32|pk_add_f32|pk_mul_f32|pk_mov_b32|exp_f16|floor_f16|log_f32|mov_b32|swap_b32|ashrrev_i16|lshlrev_b16|mac_f16|max_f16|mul_f32|and_or_b32|mad_i16|sub_i32|min3_f16|or3_b32|exp_f32|floor_f32|log_f16|ashrrev_i32|lshlrev_b32|mac_f32|max_f32|mul_f16|mad_f16|mad_f32|sub_i16|sub_u16|sub_u32|fract_f16|fract_f32|not_b32|rndne_f16|rndne_f32|xor_b32|min_f16|min_f32|sad_u16|sad_u32|xad_u32|lshlrev_b64|lshrrev_b64|ashrrev_i64|mul_lo_u32|mul_hi_u32|mul_li_i32|mad_u64_u32|mad_i64_i32|cmp_f_i64|cmp_eq_i64|cmpx_f_u64|cmpx_ge_u64|cvt_pk_bf8_f32|cvt_pk_fp8_f32|cvt_sr_bf8_f32|cvt_sr_fp8_f32|cvt_f32_bf16|cvt_bf16_f32|cvt_f32_bf8|cvt_f32_fp8)_ipw512_wpg(4|8|16)
+perf_sp_valu_dpfp = perf_sp_valu_(mmac_16x16x4|fma)_f64_dpfp(0|1|2|3)_ipw512_wpg4
+perf_ds-sub0 = perf_ds_(read_m32x8_b32|read_m32x16_b16|read_m32x32_b8|read_m32x64_b4|read_m32x16_b16_alt|read_m64x16_b8_alt4|read_m32x32_b8_alt2|read_b32|read_i8|max_u32|min_u32|xor_b32|dec_u32|permute_b32|add_u32|add_rtn_u32|and_rtn_b32|max_rtn_i32|min_rtn_u32|xor_rtn_b32|dec_rtn_u32|bpermute_b32|wrap_rtn_b32|cmpst_rtn_b32|read_i8_d16|read_i8_d16_hi|write_b8_d16_hi|write_b16_d16_hi|min_f32|min_f64)_ipw(1024|512)_wpg(4|8|16)
+perf_ds-sub1 = perf_ds_add_f32_ipw(512|256)_wpg(4|8)
+perf_ds-sub2 = perf_ds_add_f32_ipw(128|256)_wpg16
+perf_ds-sub3 = perf_ds_(read_pack_l_b16|read_pack_h_b16|read_pack_0_b8|read_pack_1_b8|read_pack_2_b8|read_pack_3_b8|read_mask_b32)_ipw(1024|512)_wpg(4|8|16)
+perf_ds-sub4 = perf_ds_(read_m16x16_b32|read_mt16x16_b32|read_mt16x32_b16_alt2|s_read_m32x64_b4|s_read_m32x32_b8|s_read_m32x32_b8_alt2|s_read_m64x16_b8_alt4|s_read_m32x16_b16|s_read_m32x16_b16_alt2|s_read_m16x16_b32|s_read_mt128x16_b4|s_read_mt64x16_b8|s_read_mt32x32_b8_alt2|s_read_mt32x16_b16|s_read_mt16x32_b16_alt2|s_read_mt16x16_b32|s_write_m32x64_b4|s_write_m32x32_b8|s_write_m32x32_b8_alt2|s_write_m64x16_b8_alt4|s_write_m32x16_b16|s_write_m32x16_b16_alt2|s_write_m16x16_b32|s_write_mt128x16_b4|s_write_mt64x16_b8|s_write_mt32x32_b8_alt2|s_write_mt32x16_b16|s_write_mt16x32_b16_alt2|s_write_mt16x16_b32)_ipw(1024|512)_wpg(4|8|16)
+perf_latency_ds = perf_latency_ds_(read_b32|write_b64|and_b32)_ipw4_wpg4
+perf_gds_latency = perf_gds_latency_ds_(read_b32|write_b128|add_u64)_ipw4_wpg4
+perf_sq_ex_dependency-sub0 = perf_sq_ex_v_readlane_b32_then_(v_add_u32|v_and_b32|v_addc_co_u32|v_subb_co_u32|v_readlane_b32|v_writelane_b32)_dep(true|false)_ipw(512)_wpg(4|16)
+perf_sq_ex_dependency-sub1 = perf_sq_ex_(v_cmp_eq_u32|v_add_co_u32|v_sub_co_u32|v_div_scale_f32)_then_(v_add_u32|v_and_b32|v_cndmask_b32|v_addc_co_u32|v_subb_co_u32|v_div_fmas_f32|v_readlane_b32|v_writelane_b32)_dep(true)_ipw(512)_wpg(4|16)
+perf_sq_ex_dependency-sub2 = perf_sq_ex_(v_cmp_eq_u32|v_add_co_u32|v_sub_co_u32|v_div_scale_f32)_then_(v_add_u32|v_and_b32|v_cndmask_b32|v_add_co_u32|v_sub_co_u32|v_div_fmas_f32|v_readlane_b32|v_writelane_b32)_dep(false)_ipw(512)_wpg(4|16)
+perf_sq_ex_dependency-sub3 = perf_sq_ex_(v_cmpx_eq_u32)_then_(v_max_u32|v_min_u32|v_or_b32|v_addc_co_u32|v_subb_co_u32)_dep(true)_ipw(512)_wpg(4|16)
+perf_sq_ex_dependency-sub4 = perf_sq_ex_(v_cmpx_eq_u32)_then_(v_add_u32|v_sub_u32|v_add_i32|v_add_co_u32|v_sub_co_u32)_dep(false)_ipw(512)_wpg(4|16)
+perf_sq_ex_dependency-sub5 = perf_sq_ex_(v_mov_b32|v_lshlrev_b32|v_lshrrev_b32)_then_(v_readlane_b32)_dep(true|false)_ipw(512)_wpg(4|16)
+perf_sq_ex_dependency-sub6 = perf_sq_ex_(v_cmpx_eq_u32)_then_(v_readlane_b32|v_readfirstlane_b32|v_writelane_b32)_dep(true|false)_ipw(512)_wpg(4|16)
+
+[SANITY]
+perf_buffer_load_to_lds = perf_buffer_load_dwordx4_toLDS_comp2_hitTCC_ipw32_wpg4_so0_tid0
+
+[BUILD]
+#ONLY ONE
+perf_buffer_load_to_lds = perf_buffer_load_dwordx1_toLDS_comp1_hitTCC_ipw32_wpg4_so0_tid0
+
+[RERUN]
+perf_global_atomic-sub0 = perf_global_atomic_(f32|f32x4|f64|f64x2)_ipw48_wpg4
+perf_global_atomic-sub1 = perf_global_atomic_f64_ipw96_wpg4
+perf_global_atomic-sub2 = perf_global_atomic_f32_ipw192_wpg4
+#perf_buffer_ooo = perf_buffer_loadstore(valu)?_instruction_mtype_(cc|nc)_ls_ooo_(ON)
+#perf_global_ooo = perf_global_loadstore(valu)?_instruction_mtype_(cc|nc)_ls_ooo_(ON)
+#perf_structure_buffer-sub0 = perf_structure_buffer_load_dwordx(2|4)_hitTCP_S(0.25|0.5|1|2|4|8|16|32)K_N0_B64_CSW(on)
+#perf_structure_buffer-sub1 = perf_structure_buffer_load_dwordx(2|4)_hitTCP_S0K_N(3|48|96|192|511)_B64_CSW(on)
+

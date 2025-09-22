@@ -1,0 +1,6 @@
+test_name,channel_id,request_count,response_count,ratio,status
+cache_sanity_test,0,1000,1000,1.0,pass
+cache_sanity_test,1,500,500,1.0,pass
+cache_perf_test_128,0,2000,2000,1.0,pass
+cache_perf_test_256,0,1500,1500,1.0,pass
+cache_perf_test_512,0,1000,1000,1.0,pass

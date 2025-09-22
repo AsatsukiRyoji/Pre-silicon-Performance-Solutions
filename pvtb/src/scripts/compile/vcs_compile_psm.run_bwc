@@ -1,0 +1,68 @@
+#!/bin/bash
+# VCS Compilation Script for Cache Sanity Test
+# This script compiles the cache sanity test using VCS
+
+# Source environment configuration
+source $STEM/pvtb/env_dir.sh
+
+# Set compilation variables
+export VCS_HOME=${VCS_HOME:-/usr/synopsys/vcs}
+export VCS_LIC_WAIT=1
+export VCS_TIMEOUT=3600
+
+# Compilation flags
+VCS_FLAGS="
+    -full64
+    -sverilog
+    -timescale=1ns/1ps
+    +v2k
+    +vcs+flush+all
+    +warn=all
+    +libext+.v+.sv
+    -f filelist.f
+    -o simv
+    -l vcs.com_log
+"
+
+# Create filelist if it doesn't exist
+if [ ! -f filelist.f ]; then
+    echo "Creating default filelist.f..."
+    cat > filelist.f << EOF
+# Cache Sanity Test File List
+# Add your RTL and testbench files here
+\$STEM/pvtb/src/test/cache_sanity_test.sv
+\$STEM/pvtb/src/test/cache_tb.sv
+EOF
+fi
+
+# Create compilation directory
+mkdir -p $COMPILE_DIR
+cd $COMPILE_DIR
+
+echo "Starting VCS compilation..."
+echo "Compilation directory: $COMPILE_DIR"
+echo "VCS flags: $VCS_FLAGS"
+
+# Run VCS compilation
+$VCS_HOME/bin/vcs $VCS_FLAGS
+
+# Check compilation result
+if [ $? -eq 0 ]; then
+    echo "Compilation completed successfully!"
+    echo "Simulator binary: $COMPILE_DIR/simv"
+    
+    # Check for errors in log
+    if grep -q "Error" vcs.com_log; then
+        echo "WARNING: Errors found in compilation log:"
+        grep "Error" vcs.com_log
+    fi
+    
+    echo "Compilation Performance Summary"
+    echo "==============================="
+    echo "Compilation time: $(date)"
+    echo "Output binary: simv"
+    echo "Log file: vcs.com_log"
+else
+    echo "ERROR: Compilation failed!"
+    exit 1
+fi

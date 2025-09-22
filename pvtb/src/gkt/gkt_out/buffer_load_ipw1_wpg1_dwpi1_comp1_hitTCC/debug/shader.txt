@@ -1,0 +1,50 @@
+shader main
+type(CS)
+
+
+
+s_load_dwordx2 s8 s0, 0
+
+s_load_dwordx2 s0, s0, 8
+s_waitcnt lgkmcnt(0)
+
+
+
+
+s_load_dwordx4 s4, s0, 0x0
+s_waitcnt lgkmcnt(0)
+
+        s_mov_b32 s4, s8
+        s_and_b32 s5, 0xffff0000, s5
+        s_and_b32 s9, 0x0000ffff, s9
+        
+s_or_b32  s5, s5, s9
+v_lshlrev_b32 v1, 0x6, s2
+v_or_b32 v1, v0, v1
+v_lshrrev_b32 v2, 0x6, v1
+v_and_b32 v3, 0x3f, v0
+v_lshlrev_b32 v3, 0x2, v3
+
+
+v_readlane_b32 s8, v2, 0x0
+s_mul_i32 s8, s8, 0x100
+s_and_b32 s8, 0x2fffff, s8
+
+s_add_i32 s4, s4, s8
+
+
+
+
+buffer_load_dword v4, v3, s4, 0 offen:1 glc:1
+s_add_i32 s4, s4, 0x100
+
+
+
+
+
+
+
+s_endpgm
+end
+
+

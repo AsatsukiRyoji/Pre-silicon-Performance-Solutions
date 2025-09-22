@@ -1,0 +1,58 @@
+[data_arrange] Begin
+[data_arrange][set_cur_addr][GKT][0x90003000]
+[data_arrange] End: elapsed time 0.00s
+[gen_random_data_matrix] Begin
+[gen_random_data_matrix] End: elapsed time 0.00s
+[gen_buffer_resource] Begin
+[gen_buffer_resource][set_cur_addr][GKT][0x90003040]
+[gen_buffer_resource] End: elapsed time 0.00s
+[shader_to_binary] Begin
+[shader_to_binary][update_field][GKT][compute_pgm_rsrc1_t][sgprs][0x2]
+[shader_to_binary][update_field][GKT][compute_pgm_rsrc1_t][vgprs][0x1]
+[shader_to_binary][set_cur_addr][GKT][0x90003200]
+[shader_to_binary][set_cur_addr][GKT][0x90003280]
+[shader_to_binary] End: elapsed time 0.01s
+[gen_kernel_code_properties] Begin
+[gen_kernel_code_properties][update_field][GKT][kernel_code_properties][enable_sgpr_kernarg_segment_ptr][0x1]
+[gen_kernel_code_properties][set_cur_addr][GKT][0x90003340]
+[gen_kernel_code_properties] End: elapsed time 0.00s
+[gen_compute_pgm_rsrc1] Begin
+[gen_compute_pgm_rsrc1] End: elapsed time 0.00s
+[gen_compute_pgm_rsrc2] Begin
+[gen_compute_pgm_rsrc2][update_field][GKT][compute_pgm_rsrc2_t][user_sgpr][0x2]
+[gen_compute_pgm_rsrc2][update_field][GKT][compute_pgm_rsrc2_t][tidig_comp_cnt][0x0]
+[gen_compute_pgm_rsrc2][update_field][GKT][compute_pgm_rsrc2_t][tgid_x_en][0x1]
+[gen_compute_pgm_rsrc2][update_field][GKT][compute_pgm_rsrc2_t][tgid_y_en][0x0]
+[gen_compute_pgm_rsrc2][update_field][GKT][compute_pgm_rsrc2_t][tgid_z_en][0x0]
+[gen_compute_pgm_rsrc2][update_field][GKT][compute_pgm_rsrc2_t][tg_size_en][0x0]
+[gen_compute_pgm_rsrc2] End: elapsed time 0.00s
+[gen_pgm_register] Begin
+[gen_pgm_register][update_field][GKT][cs_pgm_register_t][kernel_code_entry_byte_offset][0x100]
+[gen_pgm_register] End: elapsed time 0.00s
+[gen_user_data] Begin
+[gen_user_data] End: elapsed time 0.00s
+[gen_aql_dispatch_packet] Begin
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][workgroup_size_x][0x40]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][workgroup_size_y][0x1]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][workgroup_size_z][0x1]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][grid_size_x][0xc00]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][grid_size_y][0x1]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][grid_size_z][0x1]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][kernarg_address][0x90003300]
+[gen_aql_dispatch_packet][update_field][GKT][aql_packet][kernel_object][0x90003100]
+[gen_aql_dispatch_packet][set_cur_addr][GKT][0x90003440]
+[gen_aql_dispatch_packet] End: elapsed time 0.00s
+[gen_amd_queue] Begin
+[gen_amd_queue] End: elapsed time 0.00s
+[][set_cur_addr][GKT][0x90003600]
+[gen_spi_grbm] Begin
+[gen_spi_grbm] End: elapsed time 0.00s
+[][update_field][GKT][aql_packet][grid_size_x][0x3000]
+[gen_pm] Begin
+[gen_pm] End: elapsed time 0.00s
+[generate_output] Begin
+[generate_output] End: elapsed time 0.00s
+[generate_output_aux] Begin
+[generate_output_aux] End: elapsed time 0.00s
+[generate_binary_out] Begin
+[generate_binary_out] End: elapsed time 0.00s

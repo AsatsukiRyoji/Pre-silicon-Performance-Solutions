@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+import sys, os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../test')
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../src')
+from gkt_util import *
+from global_load_stride import *
+global_load_stride_test_ptn = 'global_load_dwordx(\d+)_hit(\w+)_ipw(\d+)_tci(\d+)_bankhash(\d+)_stride(\d+)_iszie(\d+)_wm(\d+)'
+# inst args will be formatted as "-i mem_type load -i ipw 4..." returned in inst_arg_str
+# all args will be collected in dict returned in all_args
+inst_arg_str, all_args = Global_gemm.get_args_from_name(global_load_stride_test_ptn,
+INST_ARGS_DWPI, INST_ARGS_HIT, INST_ARGS_IPW, INST_ARGS_TCI, INST_ARGS_BH, INST_ARGS_STRIDE, INST_ARGS_IS, INST_ARGS_WM_UTCL1)
+if not inst_arg_str and not all_args:
+	print(f"no args matched from name")
+global_gemm = Global_gemm(inst_arg_str)
+
+global_gemm.gen_output()
+
+
