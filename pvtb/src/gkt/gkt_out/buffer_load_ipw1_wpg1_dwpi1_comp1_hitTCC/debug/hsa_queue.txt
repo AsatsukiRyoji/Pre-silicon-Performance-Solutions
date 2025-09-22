@@ -1,7 +1,0 @@
-[256:319] service_queue = 0x0
-[224:255] queue_id = 0x0
-[192:223] size_packets = 0x0
-[128:191] doorbell_signal = 0x0
-[64:127] base_address = 0x0
-[32:63] queue_features = 0x0
-[0:31] queue_type = 0x0
