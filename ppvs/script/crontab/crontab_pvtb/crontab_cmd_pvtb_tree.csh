@@ -1,0 +1,84 @@
+#!/bin/tcsh
+
+date >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+source ~/.cshrc
+source /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/eda_modulefile
+cd /project/hawaii/a0/arch/archpv/ptb_sanity_tree/
+set current_date = `date +%Y-%m-%d`
+#inicbwa
+#bootenv_
+    ## for xcd, use source to achieve inicbwa and bootenv
+source /toolkit/hyvmt/verif_release_ro/cbwa_initscript/1.0.0/_init.csh
+source /toolkit/hyvmt/verif_release_ro/cbwa_bootcore/$bootcore_ver/bin/_bootenv.csh -o /project/hawaii/a0/arch/archpv/ptb_sanity_tree/out.$current_date
+date >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+echo "environment done" >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#tool/pandora64/bin/python3 /project/hawaii/a0/arch/archpv/pvtb_stable_copy_tree_crontab.py          # build status, please check build log
+set content_pvtb_sanity_tree_status = `cat /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/simulation_sanity_status`
+set content_sanity_backup_tree_status = `cat /project/hawaii/a0/arch/archpv/tree2forcp_pvtb_sanity_tree/simulation_sanity_status`
+set content_pvtb_sanity_tree_run = `cat /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/whether_run_flag`
+set content_sanity_backup_tree_run = `cat /project/hawaii/a0/arch/archpv/tree2forcp_pvtb_sanity_tree/whether_run_flag`
+echo "Previous_Tree1_Status:"  $content_pvtb_sanity_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+echo "Previous_Tree2_Status:"  $content_sanity_backup_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+echo "Previous_Tree1_Run_Status:" $content_pvtb_sanity_tree_run >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+echo "Previous_Tree2_run_Status:" $content_sanity_backup_tree_run >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+
+
+if ($content_pvtb_sanity_tree_status != '0') then  
+    echo "... Tree1_status:" $content_pvtb_sanity_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+    echo "... Tree1 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+    cd /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/
+    apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree1forcp_pvtb_sanity_tree # original:tree1
+else 
+    if ($content_sanity_backup_tree_status != '0') then  
+        echo "... Tree2_status:"  $content_sanity_backup_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+        echo "... Tree2 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+        cd /project/hawaii/a0/arch/archpv/tree2forcp_pvtb_sanity_tree/
+        apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree2forcp_pvtb_sanity_tree 
+    else
+        if ($content_pvtb_sanity_tree_run == "had_run") then 
+            echo "tree1 run flag:" $content_pvtb_sanity_tree_run >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+            echo "... Tree2 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+            cd /project/hawaii/a0/arch/archpv/tree2forcp_pvtb_sanity_tree/
+            apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree2forcp_pvtb_sanity_tree 
+        else
+            echo "tree2 run flag:" $content_sanity_backup_tree_run >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+            echo "... Tree1 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+            cd /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/
+            apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree1forcp_pvtb_sanity_tree 
+        endif
+    endif
+endif
+
+##@ content_pvtb_sanity_tree_run_mynumber = $content_pvtb_sanity_tree_run
+#if ($content_pvtb_sanity_tree_run == "had_run") then   #if tree1 had_run, clean the flag
+#    echo "tree1 run flag:" $content_pvtb_sanity_tree_run >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#    #sed -i 's/had_run/have_not_run/g' /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/whether_run_flag  # clear tree1 run flag
+#    #if ($content_pvtb_sanity_tree_status == '0' || $content_pvtb_sanity_tree_status == '1') then  #if tree1 had pass, run tree2
+#    if ($content_pvtb_sanity_tree_status == '0') then  #if tree1 had pass, run tree2
+#        echo "... Tree2_status:"  $content_sanity_backup_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        echo "... Tree2 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        cd /project/hawaii/a0/arch/archpv/tree2forcp_pvtb_sanity_tree/
+#        apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree2forcp_pvtb_sanity_tree 
+#    else  #if tree1 had_run but have_not_pass, continue run tree1
+#        echo "... Tree1_status:" $content_pvtb_sanity_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        echo "... Tree1 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        cd /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/
+#        apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree1forcp_pvtb_sanity_tree # original:tree1
+#    endif
+#else  # if tree1 have_not_run, and if tree2 passed last time, run tree1 now
+#    #if ($content_sanity_backup_tree_status == '0' || $content_sanity_backup_tree_status == '1') then # tree2 passed last time, clean tree2 run_flag, run tree1 now
+#    if ($content_sanity_backup_tree_status == '0') then # tree2 passed last time, clean tree2 run_flag, run tree1 now
+#        echo "... Tree1_status:" $content_pvtb_sanity_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        echo "... Tree1 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        cd /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/
+#        apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree1forcp_pvtb_sanity_tree #original:tree1
+#    else
+#        echo "... Tree2_status:"  $content_sanity_backup_tree_status >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        echo "... Tree2 Running ..."  >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+#        cd /project/hawaii/a0/arch/archpv/tree2forcp_pvtb_sanity_tree/
+#        apy /project/hawaii/a0/arch/archpv/crontab/crontab_pvtb/pvtb_stable_copy_tree_crontab.py -t tree2forcp_pvtb_sanity_tree 
+#    endif
+#endif
+echo '... End ...' >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+echo '' >> /project/hawaii/a0/arch/archpv/tree1forcp_pvtb_sanity_tree/crontab_csh.log
+

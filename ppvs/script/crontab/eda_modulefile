@@ -1,0 +1,4 @@
+module unload vcs
+module unload verdi
+module load vcs/2020.03-SP2-6
+module load verdi/2020.03-SP2-6
